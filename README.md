@@ -21,6 +21,19 @@
 > npm run start:dev
 ```
 
+## How to run tests
+```sh
+# Run tests
+> npm run test
+> npm run test:e2e
+```
+
+## Swagger docs
+```sh
+#  you can view swagger docs after run server at
+`localhost:3000/api`
+```
+
 ## Get customers
 
 ```sh
