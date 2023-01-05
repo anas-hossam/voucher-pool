@@ -1,7 +1,6 @@
 import { ApiModelProperty } from '@nestjs/swagger';
-import { IsString, IsUUID } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsString, IsUUID } from 'class-validator';
 import { Customer } from '../model/customer.entity';
-// import { User } from '../user.decorator';
 
 export class CustomerDTO implements Readonly<CustomerDTO> {
   @ApiModelProperty({ required: true })
@@ -9,11 +8,13 @@ export class CustomerDTO implements Readonly<CustomerDTO> {
   id: string;
 
   @ApiModelProperty({ required: true })
+  @IsNotEmpty()
   @IsString()
   name: string;
 
   @ApiModelProperty({ required: true })
-  @IsString()
+  @IsNotEmpty()
+  @IsEmail()
   email: string;
 
   public static from(dto: Partial<CustomerDTO>) {
