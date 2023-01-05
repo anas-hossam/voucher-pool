@@ -8,10 +8,13 @@ describe('CustomerController', () => {
   let customerController: CustomerController;
   let customerService: CustomerService;
 
-  const resultAll: Promise<CustomerDTO[]> = Promise.resolve([{ id: '123', name: 'test', email: 'test@email.com' }]);
+  const customer = { id: '123', name: 'test', email: 'test@email.com' };
+  const postResult = Promise.resolve(customer);
+  const getAllResult: Promise<CustomerDTO[]> = Promise.resolve([customer]);
 
   const mockCustomerService = {
-    getAll: () => (resultAll),
+    getAll: () => (getAllResult),
+    create: (dto) => (Promise.resolve(dto)),
   };
 
   const customerServiceProvider = {
@@ -31,9 +34,17 @@ describe('CustomerController', () => {
 
   describe('getAll', () => {
     it('should return collection of customers', async () => {
-      jest.spyOn(customerService, 'getAll').mockImplementation(() => resultAll);
+      jest.spyOn(customerService, 'getAll').mockImplementation(() => getAllResult);
 
-      expect(await customerController.getAll()).toBe(await resultAll);
+      expect(await customerController.getAll()).toBe(await getAllResult);
+    });
+  });
+
+  describe('create', () => {
+    it('should create customer', async () => {
+      jest.spyOn(customerService, 'create').mockImplementation(() => postResult);
+
+      expect(await customerController.post(customer)).toBe(await postResult);
     });
   });
 });
