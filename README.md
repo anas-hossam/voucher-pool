@@ -11,6 +11,7 @@
 # For generate new file `ormconfig.json`
 > npm run pretypeorm
 
+# Just in case no migration file exist in `src/migration`, but if exist so skip to run migration only
 # For generating migration for database to generate schemas and tables
 > npm run typeorm:migration:generate -- my_init
 
