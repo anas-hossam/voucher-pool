@@ -1,18 +1,39 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { VoucherController } from './voucher.controller';
+import { VoucherDTO } from './voucher.dto';
+import { VoucherService } from './voucher.service';
 
-describe('Voucher Controller', () => {
-  let controller: VoucherController;
+describe('VoucherController', () => {
+  let module: TestingModule;
+  let voucherController: VoucherController;
+  let voucherService: VoucherService;
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+  const resultAll: Promise<VoucherDTO[]> = Promise.resolve([]);
+
+  const mockVoucherService = {
+    getAll: () => (resultAll),
+  };
+
+  const voucherServiceProvider = {
+    provide: VoucherService,
+    useValue: mockVoucherService,
+  };
+
+  beforeAll(async () => {
+    module = await Test.createTestingModule({
       controllers: [VoucherController],
+      providers: [voucherServiceProvider],
     }).compile();
 
-    controller = module.get<VoucherController>(VoucherController);
+    voucherService = module.get<VoucherService>(VoucherService);
+    voucherController = module.get<VoucherController>(VoucherController);
   });
 
-  it('should be defined', () => {
-    expect(controller).toBeDefined();
+  describe('getAll', () => {
+    it('should return collection of vouchers', async () => {
+      jest.spyOn(voucherService, 'getAll').mockImplementation(() => resultAll);
+
+      expect(await voucherController.getAll()).toBe(await resultAll);
+    });
   });
 });
