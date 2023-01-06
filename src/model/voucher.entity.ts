@@ -1,4 +1,4 @@
-import { Entity, Column, CreateDateColumn, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
+import { Entity, Column, CreateDateColumn, JoinColumn, ManyToOne, OneToOne, Index } from 'typeorm';
 import { BaseEntity } from './base.entity';
 import { Customer } from './customer.entity';
 import { Offer } from './offer.entity';
@@ -6,8 +6,8 @@ import { Offer } from './offer.entity';
 @Entity({ name: 'voucher' })
 export class Voucher extends BaseEntity {
 
-    // todo min length 8 chars
     @Column({ unique: true, type: 'varchar', length: 100 })
+    @Index('code_index')
     code: string;
 
     @CreateDateColumn({ type: 'timestamptz', nullable: false })
