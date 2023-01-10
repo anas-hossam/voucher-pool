@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, UsePipes, ValidationPipe } from '@nestjs/common';
 import { CustomerService } from './customer.service';
 import { CustomerDTO } from './customer.dto';
 import { Customer } from '../model/customer.entity';
@@ -20,6 +20,7 @@ export class CustomerController {
     return await this.serv.getAll();
   }
 
+  @UsePipes(ValidationPipe)
   @Post()
   @ApiCreatedResponse({
     description: 'Customer Created',

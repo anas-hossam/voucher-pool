@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Patch } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Patch, UsePipes, ValidationPipe } from '@nestjs/common';
 import { VoucherService } from './voucher.service';
 import { VoucherDTO } from './voucher.dto';
 import { ApiBadRequestResponse, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiResponse } from '@nestjs/swagger';
@@ -27,6 +27,7 @@ export class VoucherController {
     type: Voucher,
   })
   @ApiBadRequestResponse({ description: 'Something error !' })
+  @UsePipes(ValidationPipe)
   @Post()
   public async post(@Body() dto: VoucherDTO) {
     return this.serv.create(dto);

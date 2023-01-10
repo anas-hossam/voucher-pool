@@ -10,7 +10,7 @@ export class CustomerService {
 
   public async getAll() {
     try {
-        const customers = await this.repo.find()
+        const customers = await this.repo.find();
         return customers.map(e => CustomerDTO.fromEntity(e));
     } catch (error) {
         throw error;

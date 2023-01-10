@@ -1,13 +1,14 @@
 import { ApiModelProperty } from '@nestjs/swagger';
-import { IsString, IsBoolean, IsUUID, IsDate, IsNotEmpty, Length } from 'class-validator';
+import { IsString, IsBoolean, IsUUID, IsNotEmpty, Length, IsOptional, IsDateString } from 'class-validator';
 import { Offer } from '../model/offer.entity';
 import { Customer } from '../model/customer.entity';
 import { Voucher } from '../model/voucher.entity';
 
 export class VoucherDTO implements Readonly<VoucherDTO> {
-  @ApiModelProperty({ required: true })
+  @ApiModelProperty({ })
   @IsUUID()
-  id: string;
+  @IsOptional()
+  id?: string;
 
   @ApiModelProperty({ required: true, maxLength: 100 })
   @IsNotEmpty()
@@ -16,25 +17,27 @@ export class VoucherDTO implements Readonly<VoucherDTO> {
   code: string;
 
   @ApiModelProperty({ required: true })
-  @IsDate()
+  @IsDateString()
   @IsNotEmpty()
   expirationDate: Date;
 
-  @ApiModelProperty({ required: true })
+  @ApiModelProperty({ })
+  @IsOptional()
   @IsBoolean()
-  isUsed: boolean;
+  isUsed?: boolean;
+
+  @ApiModelProperty({ })
+  @IsOptional()
+  @IsDateString()
+  usageDate?: Date;
 
   @ApiModelProperty({ required: true })
-  @IsDate()
-  usageDate: Date;
-
-  @ApiModelProperty({ required: true })
-  @IsUUID()
+  @IsNotEmpty()
   customer: Customer;
 
-  @ApiModelProperty({ required: true })
-  @IsUUID()
-  offer: Offer;
+  @ApiModelProperty({ })
+  @IsOptional()
+  offer?: Offer;
 
   public static from(dto: Partial<VoucherDTO>) {
     const it = new VoucherDTO();

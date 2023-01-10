@@ -1,9 +1,8 @@
-import { Module, MiddlewareConsumer, RequestMethod, NestModule } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CustomerService } from './customer.service';
 import { CustomerController } from './customer.controller';
 import { Customer } from '../model/customer.entity';
-import { validateCustomer } from '../middlewares/validate';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Customer])],
@@ -11,10 +10,4 @@ import { validateCustomer } from '../middlewares/validate';
   controllers: [CustomerController],
   exports: [],
 })
-export class CustomerModule implements NestModule {
-    configure(consumer: MiddlewareConsumer) {
-        consumer
-          .apply(validateCustomer())
-          .forRoutes({ path: 'customer', method: RequestMethod.POST });
-    }
-}
+export class CustomerModule { }

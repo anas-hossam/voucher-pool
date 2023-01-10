@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import { Controller, Get, Post, Body, UsePipes, ValidationPipe } from '@nestjs/common';
 import { OfferService } from './offer.service';
 import { OfferDTO } from './offer.dto';
 import { ApiBadRequestResponse, ApiCreatedResponse, ApiOperation, ApiResponse } from '@nestjs/swagger';
@@ -20,6 +20,7 @@ export class OfferController {
     type: Offer,
   })
   @ApiBadRequestResponse({ description: 'Something error !' })
+  @UsePipes(ValidationPipe)
   @Post()
   public async post(@Body() dto: OfferDTO): Promise<OfferDTO> {
     return this.serv.create(dto);

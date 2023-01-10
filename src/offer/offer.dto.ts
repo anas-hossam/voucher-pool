@@ -1,12 +1,13 @@
 import { ApiModelProperty } from '@nestjs/swagger';
-import { IsString, IsInt, IsUUID, IsNotEmpty, Length } from 'class-validator';
+import { IsString, IsInt, IsUUID, IsNotEmpty, Length, IsOptional } from 'class-validator';
 import { Offer } from '../model/offer.entity';
 import { Voucher } from '../model/voucher.entity';
 
 export class OfferDTO implements Readonly<OfferDTO> {
-  @ApiModelProperty({ required: true })
+  @ApiModelProperty({ })
   @IsUUID()
-  id: string;
+  @IsOptional()
+  id?: string;
 
   @ApiModelProperty({ required: true })
   @IsNotEmpty()
@@ -15,11 +16,11 @@ export class OfferDTO implements Readonly<OfferDTO> {
 
   @ApiModelProperty({ required: true })
   @IsInt()
+  @IsNotEmpty()
   @Length(0, 100)
   discount: number;
 
-  @ApiModelProperty({ required: true })
-  @IsUUID()
+  @ApiModelProperty({ })
   voucher: Voucher;
 
   public static from(dto: Partial<OfferDTO>) {
@@ -27,7 +28,7 @@ export class OfferDTO implements Readonly<OfferDTO> {
     it.id = dto.id;
     it.name = dto.name;
     it.discount = dto.discount;
-    it.voucher = dto.voucher; // todo check voucherId
+    it.voucher = dto.voucher;
     return it;
   }
 
